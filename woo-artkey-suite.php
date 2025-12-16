@@ -1488,6 +1488,67 @@ class Woo_ArtKey_Suite {
                 }
             });
 
+            // ===== SWIPE TO CLOSE (Mobile Touch Support) =====
+            // Swipe down from top or swipe right from left edge to close modals
+            (function initSwipeToClose(){
+                var touchStartY = 0;
+                var touchStartX = 0;
+                var touchEndY = 0;
+                var touchEndX = 0;
+                var swipeThreshold = 100; // pixels needed to trigger close
+                var edgeThreshold = 50; // pixels from edge to start edge swipe
+
+                function closeAllModals(){
+                    closeModal();
+                    closeGallery();
+                    closeVideos();
+                    closeWatchVideo();
+                    closeLightbox();
+                    closeMsg1();
+                    closeMsg2();
+                    unlockBodyScroll();
+                }
+
+                function isAnyModalOpen(){
+                    var modals = [modal, galModal, vidModal, watchModal, lb, msg1Modal, msg2Modal];
+                    for (var i = 0; i < modals.length; i++){
+                        if (modals[i] && (modals[i].style.display === 'flex' || getComputedStyle(modals[i]).display === 'flex')){
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                document.addEventListener('touchstart', function(e){
+                    if (!isAnyModalOpen()) return;
+                    var touch = e.touches[0];
+                    touchStartY = touch.clientY;
+                    touchStartX = touch.clientX;
+                }, {passive: true});
+
+                document.addEventListener('touchend', function(e){
+                    if (!isAnyModalOpen()) return;
+                    var touch = e.changedTouches[0];
+                    touchEndY = touch.clientY;
+                    touchEndX = touch.clientX;
+
+                    var deltaY = touchEndY - touchStartY;
+                    var deltaX = touchEndX - touchStartX;
+
+                    // Swipe down from top area (first 100px of screen)
+                    if (touchStartY < 100 && deltaY > swipeThreshold && Math.abs(deltaX) < swipeThreshold){
+                        closeAllModals();
+                        return;
+                    }
+
+                    // Swipe right from left edge (first 50px of screen)
+                    if (touchStartX < edgeThreshold && deltaX > swipeThreshold && Math.abs(deltaY) < swipeThreshold){
+                        closeAllModals();
+                        return;
+                    }
+                }, {passive: true});
+            })();
+
             function openMsg1(){ 
                 console.log('openMsg1 called, msg1Modal:', msg1Modal);
                 if (!msg1Modal) {
@@ -4335,25 +4396,57 @@ class Woo_ArtKey_Suite {
             .ak-msg-modal-inner{width:100vw!important;height:100vh!important;height:100dvh!important}
             .ak-modal-inner{width:100%!important;max-width:100%!important;margin:0!important;border-radius:0!important;height:100%!important}
             .ak-modal-body{padding:20px!important;padding-top:60px!important}
+            /* Enhanced mobile close button - very visible Back style */
             .ak-modal-close{
                 position:fixed!important;
                 top:15px!important;
-                right:15px!important;
-                width:44px!important;
+                left:15px!important;
+                right:auto!important;
+                width:auto!important;
+                min-width:80px!important;
                 height:44px!important;
-                min-width:44px!important;
                 min-height:44px!important;
-                font-size:28px!important;
+                font-size:16px!important;
+                font-weight:600!important;
                 z-index:1000001!important;
-                background:rgba(0,0,0,.8)!important;
-                border:2px solid rgba(255,255,255,.3)!important;
-                border-radius:50%!important;
-                color:#fff!important;
+                background:rgba(255,255,255,.95)!important;
+                border:none!important;
+                border-radius:22px!important;
+                color:#333!important;
                 display:flex!important;
                 align-items:center!important;
                 justify-content:center!important;
+                gap:6px!important;
+                padding:0 16px!important;
                 touch-action:manipulation!important;
                 -webkit-tap-highlight-color:transparent!important;
+                box-shadow:0 4px 20px rgba(0,0,0,.3)!important;
+                cursor:pointer!important;
+            }
+            .ak-modal-close::before{
+                content:\"\\2190\"!important;
+                font-size:18px!important;
+                font-weight:bold!important;
+            }
+            .ak-modal-close::after{
+                content:\"Back\"!important;
+            }
+            /* Hide the X symbol on mobile since we are using arrow Back */
+            .ak-modal-close>*,.ak-modal-close{font-size:0!important}
+            .ak-modal-close::before,.ak-modal-close::after{font-size:16px!important}
+            /* Swipe indicator at top of modal */
+            .ak-modal-inner::before{
+                content:\"\";
+                display:block;
+                width:40px;
+                height:4px;
+                background:rgba(255,255,255,.4);
+                border-radius:2px;
+                margin:12px auto 0;
+                position:absolute;
+                top:0;
+                left:50%;
+                transform:translateX(-50%);
             }
             /* Prevent body scroll when modal is open (iOS & Android) */
             body.modal-open{overflow:hidden!important;position:fixed!important;width:100%!important;height:100%!important;top:0!important;left:0!important}
