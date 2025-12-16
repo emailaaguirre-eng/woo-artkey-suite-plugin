@@ -1,0 +1,19 @@
+{
+    "name": "woo-artkey-suite/plugin",
+    "description": "WooCommerce Art Key Suite - QR code generation and image composition plugin",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=7.4",
+        "endroid/qr-code": "^5.0"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "classmap-authoritative": false
+    },
+    "autoload": {
+        "psr-4": {
+            "WooArtKeySuite\\": "src/"
+        }
+    }
+}
+
