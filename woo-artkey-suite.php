@@ -4108,46 +4108,156 @@ class Woo_ArtKey_Suite {
     .gb-sign-card:hover{transform:perspective(1000px) rotateX(1.2deg) rotateY(1.2deg) translateY(-2px);box-shadow:0 28px 68px rgba(0,0,0,.26), 0 1px 0 rgba(255,255,255,.6) inset}
     .gb-sign-card .btn-primary{box-shadow:0 10px 26px rgba(102,126,234,.35)}
 
-        /* Desktop Phone Frame - Show phone frame on desktop ONLY, fullscreen on mobile */
-        .desktop-phone-wrapper{display:none;justify-content:center;align-items:center;min-height:100vh;padding:40px 20px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);background-image:radial-gradient(circle at 20% 50%,rgba(102,126,234,.1) 0%,transparent 50%),radial-gradient(circle at 80% 50%,rgba(118,75,162,.1) 0%,transparent 50%)}
-        @media (max-width:768px){
-            .desktop-phone-wrapper{display:none!important}
+        /* ===== MOBILE-FIRST RESPONSIVE DESIGN ===== */
+        /* 
+         * MOBILE (default): No phone frame, content fills screen
+         * DESKTOP (769px+): Phone frame with notch visible
+         */
+
+        /* === MOBILE VIEW (Default - No Phone Frame) === */
+        .desktop-phone-wrapper{
+            display:block;
+            width:100%;
+            min-height:100vh;
+            min-height:100dvh;
+            min-height:-webkit-fill-available;
+            padding:0;
+            margin:0;
+            background:transparent;
         }
-        .desktop-phone-frame{position:relative;width:375px;max-width:90vw;padding:10px;border-radius:42px;background:linear-gradient(145deg,#1a1a1a,#0a0a0a);box-shadow:0 25px 70px rgba(0,0,0,.6),inset 0 -3px 8px rgba(255,255,255,.05),inset 0 3px 8px rgba(0,0,0,.3);border:3px solid #2a2a2a;animation:phoneFloat 3s ease-in-out infinite;transition:width .3s ease,padding .3s ease}
-        @keyframes phoneFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-        .desktop-phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#000;border-radius:0 0 18px 18px;z-index:10;box-shadow:inset 0 -3px 6px rgba(255,255,255,.05),0 2px 4px rgba(0,0,0,.3);transition:width .3s ease,height .3s ease}
-        .desktop-phone-notch::before{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:50px;height:4px;background:rgba(255,255,255,.08);border-radius:2px}
-        .desktop-phone-notch::after{content:'';position:absolute;top:6px;right:20px;width:8px;height:8px;background:rgba(255,255,255,.12);border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.05) inset}
-        .desktop-phone-screen{background:#000;border-radius:38px;overflow:hidden;aspect-ratio:9/16;max-height:667px;position:relative;width:100%;transition:max-height .3s ease,border-radius .3s ease}
-        .desktop-phone-home{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:4px;background:rgba(255,255,255,.25);border-radius:999px;z-index:10;box-shadow:0 0 8px rgba(255,255,255,.1)}
-        .desktop-phone-wrapper .artkey-wrap{display:flex;padding:0;min-height:100%;border-radius:0;height:100%}
-        .desktop-phone-wrapper .artkey-inner{border-radius:0;margin:0;max-width:100%;padding:20px 16px;height:100%;overflow-y:auto;display:flex;flex-direction:column}
-        .desktop-phone-wrapper .artkey-title{font-size:clamp(18px,4.5vw,24px);margin-bottom:14px}
-        .desktop-phone-wrapper .artkey-buttons{gap:8px;margin:14px 0;flex:1;min-height:0}
-        .desktop-phone-wrapper .artkey-btn{padding:10px 16px;font-size:13px;min-height:44px}
-        .desktop-phone-wrapper .artkey-spotify{margin:12px 0}
-        .desktop-phone-wrapper .artkey-spotify iframe{height:120px}
-        /* View Toggle Button */
-        .artkey-view-toggle{position:fixed;bottom:20px;right:20px;z-index:99998;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:50px;padding:12px 20px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 8px 24px rgba(102,126,234,.4);transition:transform .2s ease,box-shadow .2s ease;display:flex;align-items:center;gap:8px}
-        .artkey-view-toggle:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(102,126,234,.5)}
-        .artkey-view-toggle:active{transform:translateY(0)}
-        .artkey-view-toggle .toggle-icon{font-size:18px}
-        @media (max-width:768px){
-            .artkey-view-toggle{bottom:15px;right:15px;padding:10px 16px;font-size:13px}
+        .desktop-phone-frame{
+            display:contents; /* Makes the frame invisible, children render as if frame doesn't exist */
         }
-        /* Force desktop view class */
-        .force-desktop-view .artkey-wrap{display:none!important}
-        .force-desktop-view .desktop-phone-wrapper{display:flex!important}
-        /* Force mobile view class */
-        .force-mobile-view .desktop-phone-wrapper{display:none!important}
-        .force-mobile-view .artkey-wrap{display:flex!important;min-height:100vh!important;min-height:100dvh!important;width:100vw!important}
+        .desktop-phone-notch{display:none!important}
+        .desktop-phone-home{display:none!important}
+        .desktop-phone-screen{
+            display:block;
+            width:100%;
+            max-width:100%;
+            max-height:none;
+            aspect-ratio:unset;
+            border-radius:0;
+            background:transparent;
+            overflow:visible;
+        }
+        /* Mobile: Content fills full screen */
+        .desktop-phone-wrapper .artkey-wrap{
+            display:flex!important;
+            min-height:100vh;
+            min-height:100dvh;
+            min-height:-webkit-fill-available;
+            width:100%;
+            padding:0;
+            margin:0;
+            border-radius:0;
+        }
+        .desktop-phone-wrapper .artkey-inner{
+            border-radius:0;
+            margin:0;
+            max-width:100%;
+            width:100%;
+            padding:20px 16px;
+            min-height:100vh;
+            min-height:100dvh;
+            overflow-y:auto;
+            display:flex;
+            flex-direction:column;
+            box-sizing:border-box;
+        }
+        .desktop-phone-wrapper .artkey-title{font-size:clamp(20px,5vw,28px);margin-bottom:16px}
+        .desktop-phone-wrapper .artkey-buttons{gap:12px;margin:16px 0;flex:1;min-height:0}
+        .desktop-phone-wrapper .artkey-btn{padding:14px 20px;font-size:16px;min-height:52px;touch-action:manipulation}
+        .desktop-phone-wrapper .artkey-spotify{margin:16px 0}
+        .desktop-phone-wrapper .artkey-spotify iframe{height:152px}
+
+        /* === DESKTOP VIEW (769px+) - Phone Frame Visible === */
         @media (min-width:769px){
-            .artkey-wrap{display:none}
-            .desktop-phone-wrapper{display:flex}
-            /* Hide toggle on desktop by default, but allow it to show if user toggles */
-            .artkey-view-toggle{display:none}
-            .force-mobile-view .artkey-view-toggle{display:flex}
+            .desktop-phone-wrapper{
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                min-height:100vh;
+                padding:40px 20px;
+                background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);
+                background-image:radial-gradient(circle at 20% 50%,rgba(102,126,234,.1) 0%,transparent 50%),radial-gradient(circle at 80% 50%,rgba(118,75,162,.1) 0%,transparent 50%);
+            }
+            .desktop-phone-frame{
+                display:block;
+                position:relative;
+                width:375px;
+                max-width:90vw;
+                padding:10px;
+                border-radius:42px;
+                background:linear-gradient(145deg,#1a1a1a,#0a0a0a);
+                box-shadow:0 25px 70px rgba(0,0,0,.6),inset 0 -3px 8px rgba(255,255,255,.05),inset 0 3px 8px rgba(0,0,0,.3);
+                border:3px solid #2a2a2a;
+                animation:phoneFloat 3s ease-in-out infinite;
+                transition:width .3s ease,padding .3s ease;
+            }
+            @keyframes phoneFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+            .desktop-phone-notch{
+                display:block!important;
+                position:absolute;
+                top:0;
+                left:50%;
+                transform:translateX(-50%);
+                width:110px;
+                height:30px;
+                background:#000;
+                border-radius:0 0 18px 18px;
+                z-index:10;
+                box-shadow:inset 0 -3px 6px rgba(255,255,255,.05),0 2px 4px rgba(0,0,0,.3);
+            }
+            .desktop-phone-notch::before{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:50px;height:4px;background:rgba(255,255,255,.08);border-radius:2px}
+            .desktop-phone-notch::after{content:'';position:absolute;top:6px;right:20px;width:8px;height:8px;background:rgba(255,255,255,.12);border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.05) inset}
+            .desktop-phone-home{
+                display:block!important;
+                position:absolute;
+                bottom:8px;
+                left:50%;
+                transform:translateX(-50%);
+                width:134px;
+                height:4px;
+                background:rgba(255,255,255,.25);
+                border-radius:999px;
+                z-index:10;
+                box-shadow:0 0 8px rgba(255,255,255,.1);
+            }
+            .desktop-phone-screen{
+                display:block;
+                background:#000;
+                border-radius:38px;
+                overflow:hidden;
+                aspect-ratio:9/16;
+                max-height:667px;
+                position:relative;
+                width:100%;
+            }
+            .desktop-phone-wrapper .artkey-wrap{
+                display:flex;
+                padding:0;
+                min-height:100%;
+                border-radius:0;
+                height:100%;
+            }
+            .desktop-phone-wrapper .artkey-inner{
+                border-radius:0;
+                margin:0;
+                max-width:100%;
+                padding:20px 16px;
+                height:100%;
+                min-height:unset;
+                overflow-y:auto;
+                display:flex;
+                flex-direction:column;
+            }
+            .desktop-phone-wrapper .artkey-title{font-size:clamp(18px,4.5vw,24px);margin-bottom:14px}
+            .desktop-phone-wrapper .artkey-buttons{gap:8px;margin:14px 0;flex:1;min-height:0}
+            .desktop-phone-wrapper .artkey-btn{padding:10px 16px;font-size:13px;min-height:44px}
+            .desktop-phone-wrapper .artkey-spotify{margin:12px 0}
+            .desktop-phone-wrapper .artkey-spotify iframe{height:120px}
         }
+        /* Desktop size variations */
         @media (min-width:769px) and (max-width:1024px){
             .desktop-phone-frame{width:320px;padding:8px;border-radius:38px}
             .desktop-phone-screen{max-height:568px}
@@ -4173,12 +4283,34 @@ class Woo_ArtKey_Suite {
             .desktop-phone-wrapper .artkey-title{font-size:clamp(24px,3.5vw,32px)}
             .desktop-phone-wrapper .artkey-btn{padding:14px 20px;font-size:15px}
         }
+
+        /* View Toggle Button (hidden by default on both mobile and desktop) */
+        .artkey-view-toggle{display:none}
+
+        /* === MOBILE-SPECIFIC ENHANCEMENTS === */
         @media (max-width:768px){
-            .desktop-phone-wrapper{display:none!important}
-            .artkey-wrap{display:flex!important;min-height:100vh!important;min-height:100dvh!important;min-height:-webkit-fill-available;padding:10px;width:100vw!important;box-sizing:border-box!important}
-            .artkey-inner{padding:24px;width:100%;max-width:100%;box-sizing:border-box}
-            .artkey-buttons{grid-template-columns:1fr;gap:12px}
-            .artkey-btn{min-height:48px;padding:14px 20px;font-size:clamp(14px,4vw,16px)}
+            /* Ensure full-screen experience on mobile */
+            html,body{
+                overflow-x:hidden;
+            }
+            .artkey-inner{
+                padding:20px 16px;
+                width:100%;
+                max-width:100%;
+                box-sizing:border-box;
+                padding-bottom:env(safe-area-inset-bottom,20px);
+            }
+            .artkey-buttons{
+                grid-template-columns:1fr;
+                gap:12px;
+            }
+            .artkey-btn{
+                min-height:52px;
+                padding:16px 20px;
+                font-size:clamp(15px,4vw,17px);
+                touch-action:manipulation;
+                -webkit-tap-highlight-color:transparent;
+            }
             .artkey-editor .row{grid-template-columns:1fr}
             .theme-layout{grid-template-columns:1fr}
             .sortable-list .row{grid-template-columns:1fr}
@@ -4186,12 +4318,58 @@ class Woo_ArtKey_Suite {
             .editor-grid{grid-template-columns:1fr}
             .editor-col-left{position:relative}
             .phone-frame{max-width:100%}
-            /* Ensure modals work on iOS & Android */
-            .ak-modal{position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;display:flex!important;z-index:999999!important;background:rgba(0,0,0,.85)!important}
+            /* Ensure modals work on iOS & Android - fullscreen */
+            .ak-modal{
+                position:fixed!important;
+                top:0!important;
+                left:0!important;
+                right:0!important;
+                bottom:0!important;
+                width:100vw!important;
+                height:100vh!important;
+                height:100dvh!important;
+                display:flex!important;
+                z-index:999999!important;
+                background:rgba(0,0,0,.95)!important;
+            }
             .ak-msg-modal-inner{width:100vw!important;height:100vh!important;height:100dvh!important}
-            .ak-modal-inner{width:calc(100% - 20px)!important;max-width:none!important;margin:10px!important}
+            .ak-modal-inner{width:100%!important;max-width:100%!important;margin:0!important;border-radius:0!important;height:100%!important}
+            .ak-modal-body{padding:20px!important;padding-top:60px!important}
+            .ak-modal-close{
+                position:fixed!important;
+                top:15px!important;
+                right:15px!important;
+                width:44px!important;
+                height:44px!important;
+                min-width:44px!important;
+                min-height:44px!important;
+                font-size:28px!important;
+                z-index:1000001!important;
+                background:rgba(0,0,0,.8)!important;
+                border:2px solid rgba(255,255,255,.3)!important;
+                border-radius:50%!important;
+                color:#fff!important;
+                display:flex!important;
+                align-items:center!important;
+                justify-content:center!important;
+                touch-action:manipulation!important;
+                -webkit-tap-highlight-color:transparent!important;
+            }
             /* Prevent body scroll when modal is open (iOS & Android) */
-            body.modal-open{overflow:hidden!important;position:fixed!important;width:100%!important;height:100%!important}
+            body.modal-open{overflow:hidden!important;position:fixed!important;width:100%!important;height:100%!important;top:0!important;left:0!important}
+            /* Safe area support for notched phones (iPhone X+, etc.) */
+            @supports (padding: env(safe-area-inset-top)){
+                .artkey-inner{
+                    padding-top:max(20px,env(safe-area-inset-top));
+                    padding-bottom:max(20px,env(safe-area-inset-bottom));
+                    padding-left:max(16px,env(safe-area-inset-left));
+                    padding-right:max(16px,env(safe-area-inset-right));
+                }
+                .ak-modal-close{
+                    top:max(15px,env(safe-area-inset-top))!important;
+                    right:max(15px,env(safe-area-inset-right))!important;
+                }
+            }
             /* Android Chrome address bar fix */
             @supports (height: 100dvh) {
                 .artkey-wrap{min-height:100dvh}
