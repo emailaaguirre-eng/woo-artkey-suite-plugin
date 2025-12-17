@@ -4072,154 +4072,160 @@ class Woo_ArtKey_Suite {
     .gb-sign-card:hover{transform:perspective(1000px) rotateX(1.2deg) rotateY(1.2deg) translateY(-2px);box-shadow:0 28px 68px rgba(0,0,0,.26), 0 1px 0 rgba(255,255,255,.6) inset}
     .gb-sign-card .btn-primary{box-shadow:0 10px 26px rgba(102,126,234,.35)}
 
-        /* ===== MOBILE-FIRST RESPONSIVE DESIGN ===== */
+        /* ===== DESKTOP-FIRST RESPONSIVE DESIGN ===== */
         /* 
-         * MOBILE (default): No phone frame, content fills screen
-         * DESKTOP (769px+): Phone frame with notch visible
+         * DESKTOP (default): Phone frame with notch visible
+         * MOBILE (max-width:768px): No phone frame, content fills screen
          */
 
-        /* === MOBILE VIEW (Default - No Phone Frame) === */
+        /* === DESKTOP VIEW (Default) - Phone Frame Visible === */
         .desktop-phone-wrapper{
-            display:block;
-            width:100%;
-            min-height:100vh;
-            min-height:100dvh;
-            min-height:-webkit-fill-available;
-            padding:0;
-            margin:0;
-            background:transparent;
+            display:flex!important;
+            justify-content:center!important;
+            align-items:center!important;
+            min-height:100vh!important;
+            padding:40px 20px!important;
+            margin:0!important;
+            background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%)!important;
+            background-image:radial-gradient(circle at 20% 50%,rgba(102,126,234,.1) 0%,transparent 50%),radial-gradient(circle at 80% 50%,rgba(118,75,162,.1) 0%,transparent 50%)!important;
         }
         .desktop-phone-frame{
-            display:contents; /* Makes the frame invisible, children render as if frame doesn't exist */
+            display:block!important;
+            position:relative!important;
+            width:375px!important;
+            max-width:90vw!important;
+            padding:10px!important;
+            border-radius:42px!important;
+            background:linear-gradient(145deg,#1a1a1a,#0a0a0a)!important;
+            box-shadow:0 25px 70px rgba(0,0,0,.6),inset 0 -3px 8px rgba(255,255,255,.05),inset 0 3px 8px rgba(0,0,0,.3)!important;
+            border:3px solid #2a2a2a!important;
+            animation:phoneFloat 3s ease-in-out infinite;
         }
-        .desktop-phone-notch{display:none!important}
-        .desktop-phone-home{display:none!important}
+        @keyframes phoneFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        .desktop-phone-notch{
+            display:block!important;
+            position:absolute!important;
+            top:0!important;
+            left:50%!important;
+            transform:translateX(-50%)!important;
+            width:110px!important;
+            height:30px!important;
+            background:#000!important;
+            border-radius:0 0 18px 18px!important;
+            z-index:10!important;
+        }
+        .desktop-phone-notch::before{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:50px;height:4px;background:rgba(255,255,255,.08);border-radius:2px}
+        .desktop-phone-notch::after{content:'';position:absolute;top:6px;right:20px;width:8px;height:8px;background:rgba(255,255,255,.12);border-radius:50%}
+        .desktop-phone-home{
+            display:block!important;
+            position:absolute!important;
+            bottom:8px!important;
+            left:50%!important;
+            transform:translateX(-50%)!important;
+            width:134px!important;
+            height:4px!important;
+            background:rgba(255,255,255,.25)!important;
+            border-radius:999px!important;
+            z-index:10!important;
+        }
         .desktop-phone-screen{
-            display:block;
-            width:100%;
-            max-width:100%;
-            max-height:none;
-            aspect-ratio:unset;
-            border-radius:0;
-            background:transparent;
-            overflow:visible;
+            display:block!important;
+            background:#000!important;
+            border-radius:38px!important;
+            overflow:hidden!important;
+            aspect-ratio:9/16!important;
+            max-height:667px!important;
+            position:relative!important;
+            width:100%!important;
         }
-        /* Mobile: Content fills full screen */
         .desktop-phone-wrapper .artkey-wrap{
             display:flex!important;
-            min-height:100vh;
-            min-height:100dvh;
-            min-height:-webkit-fill-available;
-            width:100%;
-            padding:0;
-            margin:0;
-            border-radius:0;
+            padding:0!important;
+            min-height:100%!important;
+            border-radius:0!important;
+            height:100%!important;
+            width:100%!important;
         }
         .desktop-phone-wrapper .artkey-inner{
-            border-radius:0;
-            margin:0;
-            max-width:100%;
-            width:100%;
-            padding:20px 16px;
-            min-height:100vh;
-            min-height:100dvh;
-            overflow-y:auto;
-            display:flex;
-            flex-direction:column;
-            box-sizing:border-box;
+            border-radius:0!important;
+            margin:0!important;
+            max-width:100%!important;
+            padding:20px 16px!important;
+            height:100%!important;
+            overflow-y:auto!important;
+            display:flex!important;
+            flex-direction:column!important;
         }
-        .desktop-phone-wrapper .artkey-title{font-size:clamp(20px,5vw,28px);margin-bottom:16px}
-        .desktop-phone-wrapper .artkey-buttons{gap:12px;margin:16px 0;flex:1;min-height:0}
-        .desktop-phone-wrapper .artkey-btn{padding:14px 20px;font-size:16px;min-height:52px;touch-action:manipulation}
-        .desktop-phone-wrapper .artkey-spotify{margin:16px 0}
-        .desktop-phone-wrapper .artkey-spotify iframe{height:152px}
+        .desktop-phone-wrapper .artkey-title{font-size:clamp(18px,4.5vw,24px)!important;margin-bottom:14px!important}
+        .desktop-phone-wrapper .artkey-buttons{gap:8px!important;margin:14px 0!important}
+        .desktop-phone-wrapper .artkey-btn{padding:10px 16px!important;font-size:13px!important;min-height:44px!important}
+        .desktop-phone-wrapper .artkey-spotify{margin:12px 0!important}
+        .desktop-phone-wrapper .artkey-spotify iframe{height:120px!important}
 
-        /* === DESKTOP VIEW (769px+) - Phone Frame Visible === */
-        @media (min-width:769px){
+        /* === MOBILE VIEW (max-width:768px) - No Phone Frame === */
+        @media screen and (max-width:768px){
             .desktop-phone-wrapper{
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                min-height:100vh;
-                padding:40px 20px;
-                background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);
-                background-image:radial-gradient(circle at 20% 50%,rgba(102,126,234,.1) 0%,transparent 50%),radial-gradient(circle at 80% 50%,rgba(118,75,162,.1) 0%,transparent 50%);
+                display:block!important;
+                width:100%!important;
+                min-height:100vh!important;
+                min-height:100dvh!important;
+                padding:0!important;
+                margin:0!important;
+                background:transparent!important;
+                background-image:none!important;
             }
             .desktop-phone-frame{
-                display:block;
-                position:relative;
-                width:375px;
-                max-width:90vw;
-                padding:10px;
-                border-radius:42px;
-                background:linear-gradient(145deg,#1a1a1a,#0a0a0a);
-                box-shadow:0 25px 70px rgba(0,0,0,.6),inset 0 -3px 8px rgba(255,255,255,.05),inset 0 3px 8px rgba(0,0,0,.3);
-                border:3px solid #2a2a2a;
-                animation:phoneFloat 3s ease-in-out infinite;
-                transition:width .3s ease,padding .3s ease;
+                display:contents!important;
+                width:auto!important;
+                max-width:none!important;
+                padding:0!important;
+                border-radius:0!important;
+                background:transparent!important;
+                box-shadow:none!important;
+                border:none!important;
+                animation:none!important;
             }
-            @keyframes phoneFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-            .desktop-phone-notch{
-                display:block!important;
-                position:absolute;
-                top:0;
-                left:50%;
-                transform:translateX(-50%);
-                width:110px;
-                height:30px;
-                background:#000;
-                border-radius:0 0 18px 18px;
-                z-index:10;
-                box-shadow:inset 0 -3px 6px rgba(255,255,255,.05),0 2px 4px rgba(0,0,0,.3);
-            }
-            .desktop-phone-notch::before{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:50px;height:4px;background:rgba(255,255,255,.08);border-radius:2px}
-            .desktop-phone-notch::after{content:'';position:absolute;top:6px;right:20px;width:8px;height:8px;background:rgba(255,255,255,.12);border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.05) inset}
-            .desktop-phone-home{
-                display:block!important;
-                position:absolute;
-                bottom:8px;
-                left:50%;
-                transform:translateX(-50%);
-                width:134px;
-                height:4px;
-                background:rgba(255,255,255,.25);
-                border-radius:999px;
-                z-index:10;
-                box-shadow:0 0 8px rgba(255,255,255,.1);
-            }
+            .desktop-phone-notch{display:none!important}
+            .desktop-phone-home{display:none!important}
             .desktop-phone-screen{
-                display:block;
-                background:#000;
-                border-radius:38px;
-                overflow:hidden;
-                aspect-ratio:9/16;
-                max-height:667px;
-                position:relative;
-                width:100%;
+                display:block!important;
+                width:100%!important;
+                max-width:100%!important;
+                max-height:none!important;
+                aspect-ratio:unset!important;
+                border-radius:0!important;
+                background:transparent!important;
+                overflow:visible!important;
             }
             .desktop-phone-wrapper .artkey-wrap{
-                display:flex;
-                padding:0;
-                min-height:100%;
-                border-radius:0;
-                height:100%;
+                display:flex!important;
+                min-height:100vh!important;
+                min-height:100dvh!important;
+                width:100%!important;
+                padding:0!important;
+                margin:0!important;
+                border-radius:0!important;
+                height:auto!important;
             }
             .desktop-phone-wrapper .artkey-inner{
-                border-radius:0;
-                margin:0;
-                max-width:100%;
-                padding:20px 16px;
-                height:100%;
-                min-height:unset;
-                overflow-y:auto;
-                display:flex;
-                flex-direction:column;
+                border-radius:0!important;
+                margin:0!important;
+                max-width:100%!important;
+                width:100%!important;
+                padding:20px 16px!important;
+                min-height:100vh!important;
+                min-height:100dvh!important;
+                height:auto!important;
+                overflow-y:auto!important;
+                display:flex!important;
+                flex-direction:column!important;
+                box-sizing:border-box!important;
             }
-            .desktop-phone-wrapper .artkey-title{font-size:clamp(18px,4.5vw,24px);margin-bottom:14px}
-            .desktop-phone-wrapper .artkey-buttons{gap:8px;margin:14px 0;flex:1;min-height:0}
-            .desktop-phone-wrapper .artkey-btn{padding:10px 16px;font-size:13px;min-height:44px}
-            .desktop-phone-wrapper .artkey-spotify{margin:12px 0}
-            .desktop-phone-wrapper .artkey-spotify iframe{height:120px}
+            .desktop-phone-wrapper .artkey-title{font-size:clamp(20px,5vw,28px)!important;margin-bottom:16px!important}
+            .desktop-phone-wrapper .artkey-buttons{gap:12px!important;margin:16px 0!important}
+            .desktop-phone-wrapper .artkey-btn{padding:14px 20px!important;font-size:16px!important;min-height:52px!important;touch-action:manipulation!important}
+            .desktop-phone-wrapper .artkey-spotify{margin:16px 0!important}
+            .desktop-phone-wrapper .artkey-spotify iframe{height:152px!important}
         }
         /* Desktop size variations */
         @media (min-width:769px) and (max-width:1024px){
