@@ -1100,13 +1100,7 @@ class Woo_ArtKey_Suite {
             console.log('ArtKey: Screen width:', window.innerWidth);
             console.log('ArtKey: Is mobile:', window.innerWidth <= 768);
 
-            // Initialize toggle button text based on screen size
-            const viewToggle = document.getElementById('artkey_view_toggle');
-            if (viewToggle && window.innerWidth <= 768) {
-                viewToggle.innerHTML = '<span class="toggle-icon">🖥️</span> <span>Desktop View</span>';
-            } else if (viewToggle) {
-                viewToggle.innerHTML = '<span class="toggle-icon">📱</span> <span>Mobile View</span>';
-            }
+            // viewToggle initialization moved below to avoid duplicate declaration
 
             const signPanel = document.getElementById('ak_gb_sign_panel');
             const modal = document.getElementById('ak_gb_modal');
@@ -1615,6 +1609,13 @@ class Woo_ArtKey_Suite {
             // View toggle (mobile/desktop switch) - allows users to switch views on any device
             const viewToggle = document.getElementById('artkey_view_toggle');
             const body = document.body;
+            
+            // Initialize toggle button text based on screen size
+            if (viewToggle && window.innerWidth <= 768) {
+                viewToggle.innerHTML = '<span class="toggle-icon">🖥️</span> <span>Desktop View</span>';
+            } else if (viewToggle) {
+                viewToggle.innerHTML = '<span class="toggle-icon">📱</span> <span>Mobile View</span>';
+            }
             
             // On mobile, start with mobile view, but allow switching
             if (window.innerWidth <= 768) {
