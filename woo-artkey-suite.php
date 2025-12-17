@@ -961,10 +961,18 @@ class Woo_ArtKey_Suite {
                 <div class="ak-modal-inner ak-watch-video-inner">
                     <button type="button" id="ak_watch_video_close" class="ak-modal-close" aria-label="Close">&times;</button>
                     <div class="ak-modal-body ak-watch-video-body">
-                        <video id="ak_watch_video_player" controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#000;">
+                        <video id="ak_watch_video_player" playsinline webkit-playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;background:#000;">
                             <source src="<?php echo esc_url($watch_video_url); ?>" type="<?php echo esc_attr(get_post_mime_type((int)($watch_video['id'] ?? 0)) ?: 'video/mp4'); ?>">
                             <a href="<?php echo esc_url($watch_video_url); ?>" target="_blank" rel="noopener">Download video</a>
                         </video>
+                        <!-- Custom tap-to-pause overlay -->
+                        <div id="ak_video_tap_overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:5;cursor:pointer;"></div>
+                        <!-- Pause indicator -->
+                        <div id="ak_video_pause_indicator" style="display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;background:rgba(0,0,0,.6);border-radius:50%;z-index:6;pointer-events:none;">
+                            <svg viewBox="0 0 24 24" style="width:100%;height:100%;fill:#fff;padding:20px;box-sizing:border-box;">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1198,27 +1206,75 @@ class Woo_ArtKey_Suite {
             }
             if (vidClose) vidClose.addEventListener('click', closeVideos);
 
+            // Video tap overlay and pause indicator
+            const videoTapOverlay = document.getElementById('ak_video_tap_overlay');
+            const videoPauseIndicator = document.getElementById('ak_video_pause_indicator');
+            
             function openWatchVideo(){
                 if (watchModal) {
-                    watchModal.setAttribute('style', 'position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;background:rgba(0,0,0,.9)!important;display:flex!important;align-items:center!important;justify-content:center!important;z-index:999999!important;padding:0!important;visibility:visible!important;opacity:1!important;');
+                    watchModal.setAttribute('style', 'position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;background:#000!important;display:flex!important;align-items:center!important;justify-content:center!important;z-index:999999!important;padding:0!important;visibility:visible!important;opacity:1!important;');
                     lockBodyScroll();
                 }
                 if (watchPlayer && watchPlayer.play) {
                     try {
                         watchPlayer.currentTime = 0;
-                        const wasMuted = !!watchPlayer.muted;
-                        watchPlayer.muted = true;
+                        watchPlayer.muted = false; // Start unmuted
+                        
+                        // Try to play
                         const p = watchPlayer.play();
                         if (p && typeof p.then === 'function') {
                             p.then(function(){
-                                if (!wasMuted) {
-                                    setTimeout(function(){ try { watchPlayer.muted = false; } catch(e) {} }, 150);
-                                }
-                            }).catch(function(){ /* autoplay blocked */ });
+                                console.log('Video playing');
+                                // Hide pause indicator when playing
+                                if (videoPauseIndicator) videoPauseIndicator.style.display = 'none';
+                            }).catch(function(err){
+                                console.log('Autoplay blocked, trying muted:', err);
+                                // If autoplay blocked, try muted
+                                watchPlayer.muted = true;
+                                watchPlayer.play().then(function(){
+                                    // Unmute after a short delay
+                                    setTimeout(function(){ 
+                                        try { watchPlayer.muted = false; } catch(e) {} 
+                                    }, 300);
+                                }).catch(function(){
+                                    // Show pause indicator if still blocked
+                                    if (videoPauseIndicator) videoPauseIndicator.style.display = 'block';
+                                });
+                            });
                         }
-                    } catch(e) {}
+                    } catch(e) {
+                        console.log('Video play error:', e);
+                    }
                 }
             }
+            
+            // Tap to pause/play video
+            if (videoTapOverlay && watchPlayer) {
+                videoTapOverlay.addEventListener('click', function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (watchPlayer.paused) {
+                        watchPlayer.play();
+                        if (videoPauseIndicator) videoPauseIndicator.style.display = 'none';
+                    } else {
+                        watchPlayer.pause();
+                        if (videoPauseIndicator) videoPauseIndicator.style.display = 'block';
+                    }
+                });
+                // Also handle touch
+                videoTapOverlay.addEventListener('touchend', function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (watchPlayer.paused) {
+                        watchPlayer.play();
+                        if (videoPauseIndicator) videoPauseIndicator.style.display = 'none';
+                    } else {
+                        watchPlayer.pause();
+                        if (videoPauseIndicator) videoPauseIndicator.style.display = 'block';
+                    }
+                });
+            }
+            
             function closeWatchVideo(){
                 if (watchPlayer) {
                     try { if (watchPlayer.pause) watchPlayer.pause(); } catch(e) {}
@@ -1228,6 +1284,8 @@ class Woo_ArtKey_Suite {
                     watchModal.style.display = 'none';
                     unlockBodyScroll();
                 }
+                // Reset pause indicator
+                if (videoPauseIndicator) videoPauseIndicator.style.display = 'none';
             }
             if (watchModal) {
                 watchModal.addEventListener('click', (e)=>{ if (e.target === watchModal) closeWatchVideo(); });
@@ -3900,8 +3958,34 @@ class Woo_ArtKey_Suite {
             width:100vw!important;
             height:100vh!important;
             height:100dvh!important;
-            object-fit:contain!important;
+            object-fit:cover!important;
             border-radius:0!important;
+        }
+        /* Hide default video controls - tap to pause/play instead */
+        #ak_watch_video_modal video::-webkit-media-controls{
+            display:none!important;
+            opacity:0!important;
+            visibility:hidden!important;
+        }
+        #ak_watch_video_modal video::-webkit-media-controls-panel{
+            display:none!important;
+            opacity:0!important;
+        }
+        #ak_watch_video_modal video::-webkit-media-controls-play-button{
+            display:none!important;
+        }
+        #ak_watch_video_modal video::-webkit-media-controls-start-playback-button{
+            display:none!important;
+        }
+        /* Make tap overlay cover full video */
+        #ak_video_tap_overlay{
+            position:absolute!important;
+            top:0!important;
+            left:0!important;
+            right:0!important;
+            bottom:0!important;
+            z-index:5!important;
+            -webkit-tap-highlight-color:transparent!important;
         }
     }
     /* iOS Safari safe area support */
