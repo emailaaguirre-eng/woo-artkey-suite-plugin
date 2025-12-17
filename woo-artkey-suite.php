@@ -3827,11 +3827,90 @@ class Woo_ArtKey_Suite {
         }
 
     /* Watch video: 80% viewport popup with full-size player */
-    .ak-watch-video-inner{width:80vw;max-width:none;height:80vh;max-height:none;padding:14px;overflow:hidden;display:flex;flex-direction:column}
+    .ak-watch-video-inner{width:80vw;max-width:none;height:80vh;max-height:none;padding:14px;overflow:hidden;display:flex;flex-direction:column;position:relative}
     .ak-watch-video-body{flex:1;min-height:0;overflow:hidden}
-    .ak-watch-video-x{position:absolute;right:14px;top:12px;width:44px;height:44px;border-radius:999px;border:none;background:rgba(0,0,0,.72);color:#fff;font-size:30px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5}
-    .ak-watch-video-x:hover{background:rgba(0,0,0,.85)}
-    .ak-watch-video-x:focus{outline:2px solid rgba(255,255,255,.85);outline-offset:2px}
+    /* Video modal close button - positioned for visibility on all devices */
+    #ak_watch_video_modal .ak-modal-close{
+        position:fixed!important;
+        top:60px!important;
+        right:20px!important;
+        width:50px!important;
+        height:50px!important;
+        min-width:50px!important;
+        min-height:50px!important;
+        border-radius:50%!important;
+        background:rgba(255,255,255,.95)!important;
+        color:#333!important;
+        border:none!important;
+        font-size:28px!important;
+        font-weight:bold!important;
+        cursor:pointer!important;
+        display:flex!important;
+        align-items:center!important;
+        justify-content:center!important;
+        z-index:1000001!important;
+        box-shadow:0 4px 20px rgba(0,0,0,.4)!important;
+        touch-action:manipulation!important;
+        -webkit-tap-highlight-color:transparent!important;
+    }
+    /* Mobile: Account for iPhone safe areas */
+    @media screen and (max-width:768px){
+        #ak_watch_video_modal{
+            position:fixed!important;
+            top:0!important;
+            left:0!important;
+            right:0!important;
+            bottom:0!important;
+            width:100vw!important;
+            height:100vh!important;
+            height:100dvh!important;
+            padding:0!important;
+            margin:0!important;
+            z-index:999999!important;
+        }
+        #ak_watch_video_modal .ak-modal-inner{
+            width:100vw!important;
+            height:100vh!important;
+            height:100dvh!important;
+            max-width:100vw!important;
+            max-height:100vh!important;
+            max-height:100dvh!important;
+            border-radius:0!important;
+            padding:0!important;
+            margin:0!important;
+        }
+        #ak_watch_video_modal .ak-modal-close{
+            position:fixed!important;
+            top:max(60px, env(safe-area-inset-top, 60px))!important;
+            right:max(15px, env(safe-area-inset-right, 15px))!important;
+            width:44px!important;
+            height:44px!important;
+            min-width:44px!important;
+            min-height:44px!important;
+            font-size:24px!important;
+            z-index:1000002!important;
+        }
+        #ak_watch_video_modal .ak-modal-body{
+            width:100vw!important;
+            height:100vh!important;
+            height:100dvh!important;
+            padding:0!important;
+        }
+        #ak_watch_video_modal video{
+            width:100vw!important;
+            height:100vh!important;
+            height:100dvh!important;
+            object-fit:contain!important;
+            border-radius:0!important;
+        }
+    }
+    /* iOS Safari safe area support */
+    @supports (padding-top: env(safe-area-inset-top)){
+        #ak_watch_video_modal .ak-modal-close{
+            top:max(60px, calc(env(safe-area-inset-top) + 15px))!important;
+            right:max(15px, env(safe-area-inset-right))!important;
+        }
+    }
 
         /* Section headers */
         .artkey-gallery h3,.artkey-videos h3,.artkey-guestbook h3,.artkey-upload h3{font-size:22px;font-weight:800;text-align:center;margin:28px 0 12px;position:relative}
