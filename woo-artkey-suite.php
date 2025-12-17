@@ -1089,6 +1089,17 @@ class Woo_ArtKey_Suite {
         <!-- Shared JavaScript (used by both desktop and mobile versions) -->
         <script>
         (function(){
+            // FORCE body class for ArtKey pages (in case WordPress theme doesn't add it)
+            if (document.querySelector('.desktop-phone-wrapper')) {
+                document.body.classList.add('single-artkey');
+                console.log('ArtKey: Added single-artkey class to body');
+            }
+
+            // Debug: Log that script is running
+            console.log('ArtKey: JavaScript initialized');
+            console.log('ArtKey: Screen width:', window.innerWidth);
+            console.log('ArtKey: Is mobile:', window.innerWidth <= 768);
+
             // Initialize toggle button text based on screen size
             const viewToggle = document.getElementById('artkey_view_toggle');
             if (viewToggle && window.innerWidth <= 768) {
@@ -1539,13 +1550,21 @@ class Woo_ArtKey_Suite {
 
             // Handle button clicks - use both click and touch events for iOS & Android compatibility
             function handleButtonClick(e) {
+                console.log('ArtKey: Click/touch event detected on:', e.target.tagName, e.target.className);
                 const a = e.target.closest('a.artkey-btn[data-cta]');
-                if (!a) return;
+                if (!a) {
+                    console.log('ArtKey: No artkey-btn found in click path');
+                    return;
+                }
                 e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 const cta = a.getAttribute('data-cta');
-                console.log('Button clicked:', cta); // Debug
+                console.log('ArtKey: Button clicked with CTA:', cta); // Debug
+                
+                // Visual feedback for debugging
+                a.style.opacity = '0.5';
+                setTimeout(function(){ a.style.opacity = '1'; }, 200);
                 if (cta === 'gb_view') {
                     console.log('Opening guestbook modal');
                     openModal();
@@ -3890,6 +3909,78 @@ class Woo_ArtKey_Suite {
     .gb-sign-card:hover{transform:perspective(1000px) rotateX(1.2deg) rotateY(1.2deg) translateY(-2px);box-shadow:0 28px 68px rgba(0,0,0,.26), 0 1px 0 rgba(255,255,255,.6) inset}
     .gb-sign-card .btn-primary{box-shadow:0 10px 26px rgba(102,126,234,.35)}
 
+        /* ===== FORCE FULLSCREEN ON ARTKEY PAGES ===== */
+        /* Hide WordPress theme elements on ArtKey single pages */
+        body.single-artkey,
+        body.postid-artkey,
+        body.single-post-type-artkey {
+            margin:0!important;
+            padding:0!important;
+            overflow-x:hidden!important;
+        }
+        /* Hide common theme elements on ArtKey pages */
+        body.single-artkey #header,
+        body.single-artkey .site-header,
+        body.single-artkey header,
+        body.single-artkey #footer,
+        body.single-artkey .site-footer,
+        body.single-artkey footer,
+        body.single-artkey .nav-menu,
+        body.single-artkey .main-navigation,
+        body.single-artkey .site-navigation,
+        body.single-artkey #masthead,
+        body.single-artkey #colophon,
+        body.single-artkey .breadcrumb,
+        body.single-artkey .breadcrumbs,
+        body.single-artkey .page-title,
+        body.single-artkey .entry-title,
+        body.single-artkey .site-branding,
+        body.single-artkey #wpadminbar,
+        body.single-artkey .admin-bar,
+        body.single-artkey .sidebar,
+        body.single-artkey #sidebar,
+        body.single-artkey aside,
+        body.single-artkey .widget-area,
+        body.single-artkey .comments-area,
+        body.single-artkey .post-navigation,
+        body.single-artkey .entry-meta,
+        body.single-artkey .entry-footer,
+        /* Divi theme specific */
+        body.single-artkey #main-header,
+        body.single-artkey #top-header,
+        body.single-artkey #main-footer,
+        body.single-artkey #footer-bottom,
+        body.single-artkey .et_pb_section:not(.artkey-section),
+        body.single-artkey #et-main-area > .container,
+        /* WooCommerce elements */
+        body.single-artkey .woocommerce-breadcrumb,
+        body.single-artkey .storefront-breadcrumb,
+        body.single-artkey .woocommerce-products-header {
+            display:none!important;
+            visibility:hidden!important;
+            height:0!important;
+            overflow:hidden!important;
+        }
+        /* Force content to be fullscreen */
+        body.single-artkey #page,
+        body.single-artkey #content,
+        body.single-artkey .site-content,
+        body.single-artkey #primary,
+        body.single-artkey #main,
+        body.single-artkey .entry-content,
+        body.single-artkey article,
+        body.single-artkey .post,
+        body.single-artkey .hentry,
+        body.single-artkey #et-main-area,
+        body.single-artkey .et_pb_section,
+        body.single-artkey .container {
+            width:100%!important;
+            max-width:100%!important;
+            padding:0!important;
+            margin:0!important;
+            background:transparent!important;
+        }
+
         /* ===== DESKTOP-FIRST RESPONSIVE DESIGN ===== */
         /* 
          * DESKTOP (default): Phone frame with notch visible
@@ -3982,6 +4073,28 @@ class Woo_ArtKey_Suite {
 
         /* === MOBILE VIEW (max-width:768px) - No Phone Frame === */
         @media screen and (max-width:768px){
+            /* AGGRESSIVE MOBILE OVERRIDES - Hide ALL theme elements */
+            body.single-artkey,
+            body.single-artkey *:not(.desktop-phone-wrapper):not(.desktop-phone-wrapper *):not(.ak-modal):not(.ak-modal *) {
+                /* This is intentionally aggressive to override stubborn themes */
+            }
+            body.single-artkey > *:not(.desktop-phone-wrapper):not(script):not(style):not(link) {
+                display:none!important;
+            }
+            body.single-artkey {
+                background:#000!important;
+                margin:0!important;
+                padding:0!important;
+                overflow-x:hidden!important;
+            }
+            body.single-artkey .desktop-phone-wrapper {
+                position:fixed!important;
+                top:0!important;
+                left:0!important;
+                right:0!important;
+                bottom:0!important;
+                z-index:999998!important;
+            }
             .desktop-phone-wrapper{
                 display:block!important;
                 width:100%!important;
