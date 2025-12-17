@@ -884,68 +884,7 @@ class Woo_ArtKey_Suite {
                     </div>
                 <?php endif; ?>
 
-                <?php if (!empty($features['enable_watch_video']) && !empty($watch_video_url)): ?>
-                    <div id="ak_watch_video_modal" class="ak-modal" style="display:none;">
-                        <div class="ak-modal-inner ak-watch-video-inner">
-                            <button type="button" id="ak_watch_video_close" class="ak-modal-close" aria-label="Close">&times;</button>
-                            <button type="button" id="ak_watch_video_close_x" class="ak-watch-video-x" aria-label="Close">&times;</button>
-                            <div class="ak-modal-body ak-watch-video-body">
-                                <video id="ak_watch_video_player" controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#000;">
-                                    <source src="<?php echo esc_url($watch_video_url); ?>" type="<?php echo esc_attr(get_post_mime_type((int)($watch_video['id'] ?? 0)) ?: 'video/mp4'); ?>">
-                                    <a href="<?php echo esc_url($watch_video_url); ?>" target="_blank" rel="noopener">Download video</a>
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (!empty($features['show_guestbook'])): ?>
-                    <div id="ak_gb_sign_panel" class="gb-sign-panel" style="display:none;">
-                        <?php echo do_shortcode('[artkey_guestbook id="'.$id.'" mode="form"]'); ?>
-                    </div>
-                    <div id="ak_gb_modal" class="ak-modal" style="display:none;">
-                        <div class="ak-modal-inner">
-                            <button type="button" id="ak_gb_close" class="ak-modal-close">&times;</button>
-                            <div class="ak-modal-body" style="max-height:70vh;overflow:auto;">
-                                <?php echo do_shortcode('[artkey_guestbook id="'.$id.'" mode="list"]'); ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (!empty($features['enable_messages_1']) && !empty($messages_1_url)): ?>
-                    <div id="ak_messages_1_modal" class="ak-modal ak-msg-modal" style="display:none;position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;z-index:999999!important;background:rgba(0,0,0,.95)!important;margin:0!important;padding:0!important;">
-                        <div class="ak-modal-inner ak-msg-modal-inner" style="position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;max-width:100vw!important;height:100vh!important;height:100dvh!important;max-height:100vh!important;max-height:100dvh!important;border-radius:0!important;margin:0!important;padding:0!important;overflow:hidden!important;">
-                            <button type="button" id="ak_messages_1_close" class="ak-modal-close ak-msg-close" aria-label="Close" style="position:fixed!important;top:20px!important;right:20px!important;z-index:1000001!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;border-radius:50%!important;background:rgba(0,0,0,.9)!important;color:#fff!important;border:2px solid rgba(255,255,255,.3)!important;font-size:32px!important;line-height:1!important;cursor:pointer!important;display:flex!important;align-items:center!important;justify-content:center!important;box-shadow:0 4px 16px rgba(0,0,0,.6)!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important;font-weight:bold!important;">&times;</button>
-                            <div class="ak-modal-body ak-msg-body" style="position:absolute!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-height:100vh!important;max-height:100dvh!important;overflow:auto!important;padding:0!important;margin:0!important;-webkit-overflow-scrolling:touch!important;">
-                                <?php if (preg_match('/\.pdf(\?.*)?$/i', (string)$messages_1_url)): ?>
-                                    <iframe src="<?php echo esc_url($messages_1_url); ?>" style="position:absolute!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;border:0!important;background:#fff!important;display:block!important;margin:0!important;padding:0!important;"></iframe>
-                                <?php else: ?>
-                                    <div style="position:absolute!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;display:flex!important;align-items:center!important;justify-content:center!important;background:#000!important;padding:20px!important;box-sizing:border-box!important;margin:0!important;">
-                                        <img src="<?php echo esc_url($messages_1_url); ?>" alt="" style="max-width:100%!important;max-height:calc(100vh - 40px)!important;max-height:calc(100dvh - 40px)!important;width:auto!important;height:auto!important;object-fit:contain!important;border-radius:8px!important;display:block!important;margin:auto!important;" />
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (!empty($features['enable_messages_2']) && !empty($messages_2_url)): ?>
-                    <div id="ak_messages_2_modal" class="ak-modal ak-msg-modal" style="display:none;position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;z-index:999999!important;background:rgba(0,0,0,.95)!important;margin:0!important;padding:0!important;">
-                        <div class="ak-modal-inner ak-msg-modal-inner" style="position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;max-width:100vw!important;height:100vh!important;height:100dvh!important;max-height:100vh!important;max-height:100dvh!important;border-radius:0!important;margin:0!important;padding:0!important;overflow:hidden!important;">
-                            <button type="button" id="ak_messages_2_close" class="ak-modal-close ak-msg-close" aria-label="Close" style="position:fixed!important;top:20px!important;right:20px!important;z-index:1000001!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;border-radius:50%!important;background:rgba(0,0,0,.9)!important;color:#fff!important;border:2px solid rgba(255,255,255,.3)!important;font-size:32px!important;line-height:1!important;cursor:pointer!important;display:flex!important;align-items:center!important;justify-content:center!important;box-shadow:0 4px 16px rgba(0,0,0,.6)!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important;font-weight:bold!important;">&times;</button>
-                            <div class="ak-modal-body ak-msg-body" style="position:absolute!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-height:100vh!important;max-height:100dvh!important;overflow:auto!important;padding:0!important;margin:0!important;-webkit-overflow-scrolling:touch!important;">
-                                <?php if (preg_match('/\.pdf(\?.*)?$/i', (string)$messages_2_url)): ?>
-                                    <iframe src="<?php echo esc_url($messages_2_url); ?>" style="position:absolute!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;border:0!important;background:#fff!important;display:block!important;margin:0!important;padding:0!important;"></iframe>
-                                <?php else: ?>
-                                    <div style="position:absolute!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;display:flex!important;align-items:center!important;justify-content:center!important;background:#000!important;padding:20px!important;box-sizing:border-box!important;margin:0!important;">
-                                        <img src="<?php echo esc_url($messages_2_url); ?>" alt="" style="max-width:100%!important;max-height:calc(100vh - 40px)!important;max-height:calc(100dvh - 40px)!important;width:auto!important;height:auto!important;object-fit:contain!important;border-radius:8px!important;display:block!important;margin:auto!important;" />
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
+                <?php // Modals moved outside phone wrapper for fullscreen display ?>
 
                 <?php if (!empty($features['allow_img_uploads']) || !empty($features['allow_vid_uploads'])): ?>
                     <div class="artkey-upload" id="upload" style="display:none;">
@@ -1021,7 +960,6 @@ class Woo_ArtKey_Suite {
             <div id="ak_watch_video_modal" class="ak-modal" style="display:none;">
                 <div class="ak-modal-inner ak-watch-video-inner">
                     <button type="button" id="ak_watch_video_close" class="ak-modal-close" aria-label="Close">&times;</button>
-                    <button type="button" id="ak_watch_video_close_x" class="ak-watch-video-x" aria-label="Close">&times;</button>
                     <div class="ak-modal-body ak-watch-video-body">
                         <video id="ak_watch_video_player" controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;border-radius:12px;background:#000;">
                             <source src="<?php echo esc_url($watch_video_url); ?>" type="<?php echo esc_attr(get_post_mime_type((int)($watch_video['id'] ?? 0)) ?: 'video/mp4'); ?>">
